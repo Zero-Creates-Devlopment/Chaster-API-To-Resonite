@@ -56,7 +56,6 @@ hidden
 POST Add Time to Lock:
 http://localhost:5000/add-time
 
-will only add a hour
 --------------------------------
 Resonite Folder
 --------------------------------
