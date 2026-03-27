@@ -17,7 +17,7 @@ Features
 - Displays keyholder username
 - Auto-saves Login and lock ID in .env
 - Auto-restores settings on reopen
-- POST endpoint to add time to a lock (+1 hour)
+- POST endpoint to add time to a lock
 - Local /time API for external use
 - Fully self-contained .exe — no Python install required
 
