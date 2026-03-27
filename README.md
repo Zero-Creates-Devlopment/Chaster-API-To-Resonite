@@ -39,6 +39,7 @@ First Time Setup
 6. Click "Fetch Locks"
 7. Select your lock from the dropdown
 8. Click "Save Lock"
+9. Choose the time You want To add in seconds in the field then add that time to save (this will actually add the time so sorry)
 
 - The .env file is created automatically in the same folder as the .exe
 - On subsequent runs, your token and lock are restored automatically
