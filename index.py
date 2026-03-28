@@ -73,24 +73,7 @@ def api_add_time():
     try:
 
         add_time()  # call your existing function
-        seconds = int(time_entry.get().strip())
-        d = seconds // 86400
-        h = (seconds % 86400) // 3600
-        m = (seconds % 3600) // 60
-        s = seconds % 60
-        timestring = ""
-        if d != 0:
-            timestring = timestring + f"{d}d "
-        if h != 0:
-            timestring = timestring + f"{h}h "
-        if m != 0:
-            timestring = timestring + f"{m}m "
-        if s != 0:
-            timestring = timestring + f"{s}s "
-        messagebox.showinfo(
-                "Time Added",
-                f"{timestring} has been added to your time"
-            )
+        
         return "success"
 
     except Exception as e:
@@ -249,6 +232,24 @@ def add_time():
             return
         print("Add time response:",r.text)
         set_key(ENV_FILE,"TIME",time_value)
+        seconds = int(time_value)
+        d = seconds // 86400
+        h = (seconds % 86400) // 3600
+        m = (seconds % 3600) // 60
+        s = seconds % 60
+        timestring = ""
+        if d != 0:
+            timestring = timestring + f"{d}d "
+        if h != 0:
+            timestring = timestring + f"{h}h "
+        if m != 0:
+            timestring = timestring + f"{m}m "
+        if s != 0:
+            timestring = timestring + f"{s}s "
+        messagebox.showinfo(
+                "Time Added",
+                f"{timestring} has been added to your time"
+            )
     except Exception as e:
 
         print("Add time error:",e)
