@@ -1,4 +1,3 @@
-==============================
 Resonite X Chaster Timer
 ==============================
 
@@ -18,7 +17,7 @@ Features
 - Displays keyholder username
 - Auto-saves Login and lock ID in .env
 - Auto-restores settings on reopen
-- POST endpoint to add time to a lock (+1 hour)
+- POST endpoint to add time to a lock
 - Local /time API for external use
 - Fully self-contained .exe — no Python install required
 
@@ -40,6 +39,7 @@ First Time Setup
 6. Click "Fetch Locks"
 7. Select your lock from the dropdown
 8. Click "Save Lock"
+9. Choose the time You want To add in seconds in the field then add that time to save (this will actually add the time so sorry)
 
 - The .env file is created automatically in the same folder as the .exe
 - On subsequent runs, your token and lock are restored automatically
@@ -57,7 +57,6 @@ hidden
 POST Add Time to Lock:
 http://localhost:5000/add-time
 
-will only add a hour
 --------------------------------
 Resonite Folder
 --------------------------------
