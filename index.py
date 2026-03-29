@@ -10,6 +10,30 @@ import webbrowser
 from flask_cors import CORS
 from dateutil import parser
 from tkinter import messagebox
+CURRENT_VERSION = "1.3.1"
+
+VERSION_URL = "https://raw.githubusercontent.com/ZeroCreates/Chaster-API-To-Resonite/main/CurrentVersion.txt"
+
+def check_for_updates():
+    try:
+        r = requests.get(VERSION_URL, timeout=5)
+        r.raise_for_status()
+
+        latest_version = r.text.strip()
+
+        print("Current:", CURRENT_VERSION)
+        print("Latest:", latest_version)
+
+        if latest_version != CURRENT_VERSION:
+            messagebox.showinfo(
+                "Update Available",
+                "There is a new version for this app.\n\nGet it on the GitHub."
+            )
+
+    except Exception as e:
+        print("Update check failed:", e)
+
+check_for_updates()
 # -------------------------
 # CONFIG
 # -------------------------
