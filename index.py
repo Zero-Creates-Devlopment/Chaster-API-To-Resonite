@@ -283,7 +283,7 @@ def save_lock():
 
 root = tk.Tk()
 root.title("Resonite X Chaster Timer")
-root.geometry("520x420")
+root.geometry("520x520")
 root.configure(bg=BG)
 
 title = tk.Label(
