@@ -10,6 +10,7 @@ import webbrowser
 from flask_cors import CORS
 from dateutil import parser
 from tkinter import messagebox
+
 CURRENT_VERSION = "1.3.1"
 
 VERSION_URL = "https://raw.githubusercontent.com/ZeroCreates/Chaster-API-To-Resonite/main/CurrentVersion.txt"
@@ -33,7 +34,6 @@ def check_for_updates():
     except Exception as e:
         print("Update check failed:", e)
 
-check_for_updates()
 # -------------------------
 # CONFIG
 # -------------------------
@@ -414,7 +414,7 @@ if TIME:
     time_entry.insert(0,TIME)
     time_entry.config(state="disabled")
 # START TIMER LOOP
-
+check_for_updates()
 fetch_time()
 
 if USER_ID:
