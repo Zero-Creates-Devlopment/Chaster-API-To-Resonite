@@ -131,7 +131,7 @@ def fetch_locks():
 
     try:
 
-        r = requests.get(f"{BACKEND}/locks/{user}")
+        r = requests.get(f"{BACKEND}/locks/{user}", timeout=5)
 
         print("STATUS:", r.status_code)
         print("RESPONSE:", r.text)
@@ -195,7 +195,7 @@ def fetch_time():
 
     try:
 
-        r = requests.get(f"{BACKEND}/lock/{user}/{LOCK_ID}")
+        r = requests.get(f"{BACKEND}/lock/{user}/{LOCK_ID}", timeout=5)
         if r.status_code == 500:
             messagebox.showerror(
                 "Server MSG",
@@ -247,7 +247,7 @@ def add_time():
 
     try:
 
-        r = requests.post(f"{BACKEND}/addtime/{user}/{LOCK_ID}/{time_value}")
+        r = requests.post(f"{BACKEND}/addtime/{user}/{LOCK_ID}/{time_value}", timeout=5)
         if r.status_code == 500:
             messagebox.showerror(
                 "Server MSG",
