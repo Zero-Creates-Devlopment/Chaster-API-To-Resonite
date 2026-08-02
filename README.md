@@ -1,62 +1,62 @@
 
-
 Resonite X Chaster Timer
-==============================
+========================
 
-A cyber-styled desktop app for tracking your active Chaster locks. 
-This app shows remaining lock time, keyholder information, and lets 
-you add time remotely via a local API.  
+A cyber-styled desktop app for tracking your active Chaster locks. It shows remaining lock time, keyholder information, and lets you add time remotely through a local API.
 
-It’s fully packaged as a .exe — users do NOT need Python or any dependencies. 
-The .exe automatically creates a .env file on first run.  
+The app is packaged as a Windows executable, so users do not need Python or any dependencies installed.
 
 --------------------------------
 Features
 --------------------------------
 - Cyber-terminal styled GUI
-- Shows remaining lock time, updates every second
+- Shows remaining lock time and updates it every second
 - Handles hidden timers gracefully
 - Displays keyholder username
-- Auto-saves Login and lock ID in .env
-- Auto-restores settings on reopen
-- POST endpoint to add time to a lock
-- Local /time API for external use
+- Saves your login and lock ID in a config file
+- Restores saved settings automatically on future runs
+- Exposes a local API to add time to a lock
+- Provides a local /time endpoint for external use
 - Fully self-contained .exe — no Python install required
 
 --------------------------------
 Requirements
 --------------------------------
 - Windows 10 or higher
-- Lock must be VISIBLE to see the remaining time
-- Nothing else — the .exe is fully portable
+- The lock must be visible to see the remaining time
+- Nothing else is required — the .exe is portable
 
 --------------------------------
 First Time Setup
 --------------------------------
 1. Run Resonite X Chaster Timer.exe
 2. Click "Login With Chaster"
-3. Click "yes"
-4. Then the page will ask to access your local network (this is not required but will make it easyer)
-5. if you choose not to you will need to enter the user id manually
+3. Confirm the browser login flow
+4. If prompted, allow local network access if you want easier local integration
+5. If the browser flow does not provide your user ID automatically, enter it manually
 6. Click "Fetch Locks"
 7. Select your lock from the dropdown
 8. Click "Save Lock"
-9. Choose the time You want To add in seconds in the field then add that time to save (this will actually add the time so sorry)
+9. Enter the amount of time you want to add in seconds, then click "Add Time"
 
-- The .env file is created automatically in the same folder as the .exe
-- On subsequent runs, your token and lock are restored automatically
+- The app creates its config folder and .env file automatically on first run.
+- The config file is stored in your user AppData folder at:
+  %APPDATA%\ResoniteXChasterTimer\.env
+- On subsequent runs, your saved user ID and lock ID are restored automatically.
 
 --------------------------------
 Local API Usage
 --------------------------------
-GET Remaining Time:
+GET remaining time:
 http://localhost:5000/time
+
 Example response:
 5d 12h 03m 21s
-or if the timer is hidden:
+
+If the timer is hidden, the response is:
 hidden
 
-POST Add Time to Lock:
+POST add time to a lock:
 http://localhost:5000/add-time
 
 --------------------------------
@@ -67,7 +67,7 @@ Resonite Folder
 --------------------------------
 Notes
 --------------------------------
-- .env can be manually edited if needed
-- Firewall may ask to allow the app to use port 5000 (for the local API)
+- The .env file can be edited manually if needed
+- Firewall may ask to allow the app to use port 5000 for the local API
 - Hidden timers show as "TIMER HIDDEN" in the GUI and "hidden" via API
-- Lock must be visible to see remaining time
+- The lock must be visible to see the remaining time
