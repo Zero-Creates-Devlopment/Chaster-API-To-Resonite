@@ -118,6 +118,19 @@ def get_time():
 
     return timer_label.cget("text")
 
+@app.route("/status", methods=["GET"])
+def get_status():
+
+    status = {
+        "userId": USER_ID or "",
+        "lockId": LOCK_ID or "",
+        "timer": timer_label.cget("text"),
+        "keyholder": keyholder_label.cget("text") if "keyholder_label" in globals() else "KEYHOLDER: UNKNOWN",
+        "lockSaved": bool(LOCK_ID)
+    }
+
+    return status
+
 def run_server():
     app.run(port=5000)
 
@@ -255,27 +268,53 @@ def fetch_time():
     root.after(1000, fetch_time)
 
 
+def validate_time_value(time_value):
+    if not time_value:
+        messagebox.showerror("Invalid Time", "Enter an amount of time in seconds.")
+        return None
+
+    if not time_value.isdigit():
+        messagebox.showerror("Invalid Time", "Time must be a positive whole number of seconds.")
+        return None
+
+    seconds = int(time_value)
+    if seconds <= 0:
+        messagebox.showerror("Invalid Time", "Time must be greater than zero.")
+        return None
+
+    return seconds
+
+
 def add_time():
 
     global LOCK_ID
 
     user = user_entry.get().strip()
     time_value = time_entry.get().strip()
-    if not user or not LOCK_ID:
+
+    if not user:
+        messagebox.showerror("Missing User", "Please enter or log in with your User ID first.")
+        return
+
+    if not LOCK_ID:
+        messagebox.showerror("Missing Lock", "Please save a lock before adding time.")
+        return
+
+    seconds = validate_time_value(time_value)
+    if seconds is None:
         return
 
     try:
 
-        r = requests.post(f"{BACKEND}/addtime/{user}/{LOCK_ID}/{time_value}", timeout=5)
+        r = requests.post(f"{BACKEND}/addtime/{user}/{LOCK_ID}/{seconds}", timeout=5)
         if r.status_code == 500:
             messagebox.showerror(
                 "Server MSG",
                 f"The server returned an msg.\n\nResponse:\n{r.text}"
             )
             return
-        print("Add time response:",r.text)
-        set_key(ENV_FILE,"TIME",time_value)
-        seconds = int(time_value)
+        print("Add time response:", r.text)
+        set_key(ENV_FILE, "TIME", str(seconds))
         d = seconds // 86400
         h = (seconds % 86400) // 3600
         m = (seconds % 3600) // 60
@@ -293,9 +332,10 @@ def add_time():
                 "Time Added",
                 f"{timestring} has been added to your time"
             )
+        fetch_time()
     except Exception as e:
 
-        print("Add time error:",e)
+        print("Add time error:", e)
 
 # -------------------------
 # LOCK SELECTION
@@ -322,6 +362,18 @@ def save_lock():
     keyholder_label.config(text=f"KEYHOLDER: {keyholder_name}")
 
     set_key(ENV_FILE, "LOCK_ID", LOCK_ID)
+    update_add_button_state()
+
+
+def update_add_button_state():
+    if add_button is None:
+        return
+
+    if LOCK_ID:
+        add_button.config(state="normal")
+    else:
+        add_button.config(state="disabled")
+
 
 # -------------------------
 # GUI
@@ -339,6 +391,7 @@ def main():
     global keyholder_label
     global time_entry
     global timer_label
+    global add_button
 
     root = tk.Tk()
     root.title("Resonite X Chaster Timer")
@@ -420,6 +473,16 @@ def main():
     )
 
     add_button.pack(pady=10)
+
+    refresh_button = tk.Button(
+        root,
+        text="REFRESH TIMER",
+        command=fetch_time,
+        bg=PANEL,
+        fg=CYAN
+    )
+
+    refresh_button.pack(pady=5)
 
     # TIMER DISPLAY
 

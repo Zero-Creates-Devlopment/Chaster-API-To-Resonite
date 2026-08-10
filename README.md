@@ -56,6 +56,18 @@ Example response:
 If the timer is hidden, the response is:
 hidden
 
+GET current app status:
+http://localhost:5000/status
+
+Example response:
+{
+  "userId": "12345",
+  "lockId": "abcdef",
+  "timer": "5d 12h 03m 21s",
+  "keyholder": "KEYHOLDER: user123",
+  "lockSaved": true
+}
+
 POST add time to a lock:
 http://localhost:5000/add-time
 
