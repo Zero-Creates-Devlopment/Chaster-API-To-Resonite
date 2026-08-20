@@ -12,7 +12,7 @@ from flask_cors import CORS
 from dateutil import parser
 from tkinter import messagebox
 
-CURRENT_VERSION = "1.4.1"
+CURRENT_VERSION = "1.4.2"
 
 VERSION_URL = "https://raw.githubusercontent.com/ZeroCreates/Chaster-API-To-Resonite/main/CurrentVersion.txt"
 
