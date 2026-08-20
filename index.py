@@ -395,26 +395,63 @@ def main():
 
     root = tk.Tk()
     root.title("Resonite X Chaster Timer")
-    root.geometry("520x520")
+    root.geometry("560x600")
+    root.minsize(560, 600)
     root.configure(bg=BG)
 
-    title = tk.Label(
-        root,
-        text="RESONITE X CHASTER TIMER",
-        bg=BG,
-        fg=CYAN,
-        font=("Consolas", 18, "bold")
+    style = ttk.Style(root)
+    style.theme_use("clam")
+    style.configure(
+        "Cyber.TCombobox",
+        fieldbackground=PANEL,
+        background=PANEL,
+        foreground=GREEN,
+        bordercolor=CYAN,
+        lightcolor=CYAN,
+        darkcolor=CYAN,
+        arrowcolor=CYAN,
+        padding=6,
+    )
+    style.map(
+        "Cyber.TCombobox",
+        fieldbackground=[("readonly", PANEL)],
+        foreground=[("readonly", GREEN)],
+        selectbackground=[("readonly", CYAN)],
+        selectforeground=[("readonly", BG)],
     )
 
-    title.pack(pady=10)
+    shell = tk.Frame(root, bg=PANEL, highlightbackground=CYAN, highlightthickness=1)
+    shell.pack(fill="both", expand=True, padx=18, pady=18)
+
+    title = tk.Label(
+        shell,
+        text="RESONITE X CHASTER TIMER",
+        bg=PANEL,
+        fg=CYAN,
+        font=("Consolas", 18, "bold"),
+        pady=8,
+    )
+
+    title.pack(pady=(14, 4))
 
     # USER ID
 
-    user_label = tk.Label(root, text="USER ID", bg=BG, fg=TEXT)
-    user_label.pack()
+    user_label = tk.Label(shell, text="[ USER ID ]", bg=PANEL, fg=TEXT, font=("Consolas", 10, "bold"))
+    user_label.pack(anchor="w", padx=28, pady=(10, 2))
 
-    user_entry = tk.Entry(root, width=50, bg=PANEL, fg=GREEN, insertbackground=GREEN)
-    user_entry.pack(pady=5)
+    user_entry = tk.Entry(
+        shell,
+        width=50,
+        bg=BG,
+        fg=GREEN,
+        insertbackground=GREEN,
+        relief="flat",
+        highlightbackground=CYAN,
+        highlightcolor=GREEN,
+        highlightthickness=1,
+        font=("Consolas", 10),
+    )
+    user_entry.pack(padx=28, pady=(0, 10), fill="x")
 
     if USER_ID:
         user_entry.insert(0, USER_ID)
@@ -422,29 +459,37 @@ def main():
 
     # LOCK SELECT
 
-    lock_dropdown = ttk.Combobox(root, width=55)
-    lock_dropdown.pack(pady=10)
+    lock_dropdown = ttk.Combobox(shell, width=55, style="Cyber.TCombobox", state="readonly")
+    lock_dropdown.pack(padx=28, pady=(0, 10), fill="x")
 
     keyholder_label = tk.Label(
-        root,
+        shell,
         text="KEYHOLDER: UNKNOWN",
-        bg=BG,
-        fg=CYAN
+        bg=PANEL,
+        fg=CYAN,
+        font=("Consolas", 10, "bold"),
     )
 
-    keyholder_label.pack()
+    keyholder_label.pack(anchor="w", padx=28, pady=(0, 12))
 
     # BUTTONS
 
-    button_frame = tk.Frame(root, bg=BG)
-    button_frame.pack(pady=10)
+    button_frame = tk.Frame(shell, bg=PANEL)
+    button_frame.pack(pady=4)
 
     fetch_button = tk.Button(
         button_frame,
         text="FETCH LOCKS",
         command=fetch_locks,
-        bg=PANEL,
-        fg=CYAN
+        bg=BG,
+        fg=CYAN,
+        activebackground=CYAN,
+        activeforeground=BG,
+        relief="flat",
+        padx=14,
+        pady=6,
+        font=("Consolas", 9, "bold"),
+        cursor="hand2",
     )
 
     fetch_button.grid(row=0, column=0, padx=10)
@@ -453,57 +498,85 @@ def main():
         button_frame,
         text="SAVE LOCK",
         command=save_lock,
-        bg=PANEL,
-        fg=GREEN
+        bg=BG,
+        fg=GREEN,
+        activebackground=GREEN,
+        activeforeground=BG,
+        relief="flat",
+        padx=14,
+        pady=6,
+        font=("Consolas", 9, "bold"),
+        cursor="hand2",
     )
 
     save_button.grid(row=0, column=1, padx=10)
 
-    time_label = tk.Label(root, text="ADD TIME (seconds)", bg=BG, fg=CYAN)
-    time_label.pack()
+    time_label = tk.Label(shell, text="[ ADD TIME (SECONDS) ]", bg=PANEL, fg=CYAN, font=("Consolas", 10, "bold"))
+    time_label.pack(anchor="w", padx=28, pady=(14, 2))
 
-    time_entry = tk.Entry(root, bg=PANEL, fg=CYAN, insertbackground=CYAN)
-    time_entry.pack(pady=5)
+    time_entry = tk.Entry(shell, bg=BG, fg=CYAN, insertbackground=CYAN, relief="flat", highlightbackground=CYAN, highlightcolor=GREEN, highlightthickness=1, font=("Consolas", 10))
+    time_entry.pack(padx=28, pady=(0, 8), fill="x")
     add_button = tk.Button(
         root,
         text="ADD TIME",
         command=add_time,
-        bg=PANEL,
-        fg=CYAN
+        bg=BG,
+        fg=CYAN,
+        activebackground=CYAN,
+        activeforeground=BG,
+        relief="flat",
+        padx=20,
+        pady=6,
+        font=("Consolas", 9, "bold"),
+        cursor="hand2",
     )
 
-    add_button.pack(pady=10)
+    add_button.pack(pady=4)
 
     refresh_button = tk.Button(
         root,
         text="REFRESH TIMER",
         command=fetch_time,
-        bg=PANEL,
-        fg=CYAN
+        bg=BG,
+        fg=CYAN,
+        activebackground=CYAN,
+        activeforeground=BG,
+        relief="flat",
+        padx=16,
+        pady=5,
+        font=("Consolas", 9, "bold"),
+        cursor="hand2",
     )
 
-    refresh_button.pack(pady=5)
+    refresh_button.pack(pady=4)
 
     # TIMER DISPLAY
 
     timer_label = tk.Label(
-        root,
+        shell,
         text="NOT CONFIGURED",
-        bg=BG,
+        bg=PANEL,
         fg=GREEN,
-        font=("Consolas", 30, "bold")
+        font=("Consolas", 30, "bold"),
     )
 
     login_button = tk.Button(
-        root,
+        shell,
         text="LOGIN WITH CHASTER",
         command=open_login_page,
-        bg=PANEL,
-        fg=CYAN
+        bg=BG,
+        fg=CYAN,
+        activebackground=CYAN,
+        activeforeground=BG,
+        relief="flat",
+        padx=18,
+        pady=6,
+        font=("Consolas", 9, "bold"),
+        cursor="hand2",
     )
-    login_button.pack(pady=10)
+    login_button.pack(pady=(6, 0))
 
-    timer_label.pack(pady=40)
+    timer_label.pack(pady=(22, 12))
 
     TIME = os.getenv("TIME")
     if TIME:
