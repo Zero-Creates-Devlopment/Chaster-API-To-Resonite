@@ -60,6 +60,7 @@ USER_ID = os.getenv("USER_ID")
 LOCK_ID = os.getenv("LOCK_ID")
 
 locks = []
+frozen_remaining_seconds = None
 
 # -------------------------
 # COLORS
@@ -218,6 +219,7 @@ def fetch_locks():
 def fetch_time():
 
     global LOCK_ID
+    global frozen_remaining_seconds
 
     if not LOCK_ID:
         root.after(1000, fetch_time)
@@ -239,17 +241,24 @@ def fetch_time():
         data = r.json()
 
         end = data.get("endDate")
+        is_frozen = data.get("isFrozen", False)
 
         if not end:
+            frozen_remaining_seconds = None
             timer_label.config(text="TIMER HIDDEN")
         else:
 
-            
             end_time = parser.isoparse(end)
 
-            remaining = end_time - datetime.now(timezone.utc)
-
-            seconds = int(remaining.total_seconds())
+            if is_frozen:
+                if frozen_remaining_seconds is None:
+                    remaining = end_time - datetime.now(timezone.utc)
+                    frozen_remaining_seconds = int(remaining.total_seconds())
+                seconds = frozen_remaining_seconds
+            else:
+                frozen_remaining_seconds = None
+                remaining = end_time - datetime.now(timezone.utc)
+                seconds = int(remaining.total_seconds())
 
             if seconds <= 0:
                 timer_label.config(text="UNLOCKED")
@@ -344,6 +353,7 @@ def add_time():
 def save_lock():
 
     global LOCK_ID
+    global frozen_remaining_seconds
 
     idx = lock_dropdown.current()
 
@@ -357,6 +367,7 @@ def save_lock():
         return
 
     LOCK_ID = lock_id
+    frozen_remaining_seconds = None
 
     keyholder_name = get_keyholder_name(lock)
     keyholder_label.config(text=f"KEYHOLDER: {keyholder_name}")
