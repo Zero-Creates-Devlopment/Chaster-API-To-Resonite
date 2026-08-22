@@ -101,6 +101,40 @@ def set_user():
 
     return {"status":"ok"}
 
+
+def save_user_id(event=None):
+
+    global USER_ID
+
+    user = user_entry.get().strip()
+    if not user or str(user_entry.cget("state")) == "disabled":
+        return
+
+    USER_ID = user
+    set_key(ENV_FILE, "USER_ID", USER_ID)
+    user_entry.delete(0, "end")
+    user_entry.insert(0, USER_ID)
+    user_entry.config(state="disabled")
+
+
+def save_time_value(event=None):
+
+    if str(time_entry.cget("state")) == "disabled":
+        return
+
+    time_value = time_entry.get().strip()
+    if not time_value:
+        return
+
+    seconds = validate_time_value(time_value)
+    if seconds is None:
+        return
+
+    set_key(ENV_FILE, "TIME", str(seconds))
+    time_entry.delete(0, "end")
+    time_entry.insert(0, str(seconds))
+    time_entry.config(state="disabled")
+
 @app.route("/add-time", methods=["POST"])
 def api_add_time():
 
@@ -463,6 +497,8 @@ def main():
         font=("Consolas", 10),
     )
     user_entry.pack(padx=28, pady=(0, 10), fill="x")
+    user_entry.bind("<Return>", save_user_id)
+    user_entry.bind("<FocusOut>", save_user_id)
 
     if USER_ID:
         user_entry.insert(0, USER_ID)
@@ -527,6 +563,8 @@ def main():
 
     time_entry = tk.Entry(shell, bg=BG, fg=CYAN, insertbackground=CYAN, relief="flat", highlightbackground=CYAN, highlightcolor=GREEN, highlightthickness=1, font=("Consolas", 10))
     time_entry.pack(padx=28, pady=(0, 8), fill="x")
+    time_entry.bind("<Return>", save_time_value)
+    time_entry.bind("<FocusOut>", save_time_value)
     add_button = tk.Button(
         root,
         text="ADD TIME",
