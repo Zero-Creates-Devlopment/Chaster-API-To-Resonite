@@ -13,7 +13,7 @@ from PIL import Image, ImageDraw
 from flask_cors import CORS
 from dateutil import parser
 
-CURRENT_VERSION = "1.5.1"
+CURRENT_VERSION = "1.5.2"
 
 VERSION_URL = "https://raw.githubusercontent.com/ZeroCreates/Chaster-API-To-Resonite/main/CurrentVersion.txt"
 
