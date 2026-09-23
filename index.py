@@ -250,6 +250,8 @@ def start_tray():
 def get_lock_id(lock):
     return lock.get("_id") or lock.get("lock_id") or ""
 
+def get_lock_name(lock):
+    return lock.get("name") or lock.get("lock_name") or "Unknown Lock"
 
 def get_keyholder_name(lock):
     keyholder = lock.get("keyholder", "Unknown")
@@ -294,8 +296,9 @@ def fetch_locks():
 
             lock_id = get_lock_id(lock)
             kh = get_keyholder_name(lock)
+            name = get_lock_name(lock)
 
-            options.append(f"{lock_id} | KH: {kh}")
+            options.append(f"{name} | KH: {kh}")
 
             # auto select saved lock
             if LOCK_ID and lock_id and lock_id == LOCK_ID:
