@@ -251,7 +251,7 @@ def get_lock_id(lock):
     return lock.get("_id") or lock.get("lock_id") or ""
 
 def get_lock_name(lock):
-    return lock.get("title") or lock.get("name") or lock.get("lock_name") or "Unknown Lock"
+    return lock.get("customWearerName") or lock.get("title") or lock.get("lock_name") or "Unknown Lock"
 
 def get_keyholder_name(lock):
     keyholder = lock.get("keyholder", "Unknown")
